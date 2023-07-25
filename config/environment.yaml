@@ -1,0 +1,13 @@
+name: juris-graph-insights-with-llm
+dependencies:
+  - pandas
+  - json
+  - typing
+  - pip
+  - pip: 
+    - fastapi
+    - uvicorn
+    - transformers
+    - accelerate
+    - torch
+    - neo4j
