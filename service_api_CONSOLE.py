@@ -14,6 +14,8 @@ cypher_code = generate_cypher(query)
 # Replace the first part of the query
 cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
 
+print(cypher_code)
+
 
 dataFromNode4JReportTitle = "Data from Neo4J Report"
 dataFromNode4JReportSubtitle = "Consulta executada no banco: " + cypher_code

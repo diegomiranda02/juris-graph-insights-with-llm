@@ -9,8 +9,8 @@ import json
 # Import Model Api with the LLM
 from model_api import generate_cypher
 
-# Import the Graph Database Api to send the queries to
-from graphdb_api import run_query
+# Import the report JSON generator
+from reports.json_reports import DataFromNode4JReport
 
 # Instantiate the API
 app = FastAPI()
@@ -38,14 +38,26 @@ async def root():
 # Return a result for a specific query
 @app.get("/llm_api", response_class=PlainTextResponse)
 async def query(query: str):
+
+    print("QUERY ->>>>>: " + query)
    
     # Generate the cypher code from the query
     cypher_code = generate_cypher(query)
+
+    print("cypher_code 1 ->>>>>: " + cypher_code)
+        
+    # Replace the first part of the query
     cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
 
-    # Send the query to the Neo4J Database
-    result = run_query(cypher_code)
+    print("cypher_code 2 ->>>>>: " + cypher_code)
 
-    print(result)
-    return Response(content=json.dumps(result), media_type="application/json")
+
+    dataFromNode4JReportTitle = "Data from Neo4J Report"
+    dataFromNode4JReportSubtitle = "Consulta executada no banco: " + cypher_code
+    dataFromNeo4JReport = DataFromNode4JReport(dataFromNode4JReportTitle, dataFromNode4JReportSubtitle)
+    dataFromNeo4JReport.resultFromCypherQuery(cypher_code)
+    data = dataFromNeo4JReport.generateJSONReport()
+    print(data)
+
+    return Response(content=json.dumps(data), media_type="application/json")
 
