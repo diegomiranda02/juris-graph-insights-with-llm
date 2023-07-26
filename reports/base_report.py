@@ -19,6 +19,10 @@ class BaseJSONReport():
     def addSubtitleData(self, description: str) -> None:
         self.data_dict["subtitle" + str(self.keySuffix)] = description
         self.keySuffix += 1
+    
+    def addTextData(self, text: str) -> None:
+        self.data_dict["text" + str(self.keySuffix)] = text
+        self.keySuffix += 1
 
     def addMapData(self, description: str, data: Dict[str, Dict]) -> None:
         self.data_dict["mapDescription" + str(self.keySuffix)] = description

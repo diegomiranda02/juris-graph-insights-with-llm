@@ -19,6 +19,7 @@ class DataFromNode4JReport(BaseJSONReport):
         # Convert the dataframe to a dictionary
         result_dict = result.to_dict(orient='records')
 
+        self.addTextData(str(query))
         self.addTableData("Result", result_dict)
     
     def generateJSONReport(self) -> Dict:

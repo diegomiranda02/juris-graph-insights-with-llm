@@ -1,7 +1,6 @@
-name: juris-graph-insights-with-llm
+name: cypher_llm_env
 dependencies:
   - pandas
-  - json
   - typing
   - pip
   - pip: 
@@ -11,3 +10,4 @@ dependencies:
     - accelerate
     - torch
     - neo4j
+    - streamlit
