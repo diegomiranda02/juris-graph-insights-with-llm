@@ -27,3 +27,18 @@ A plataforma Hugging Face foi a escolha para disponibilizar o modelo de intelig�
 * Modelo Pré-Treinado
 Neste projeto, utilizamos o modelo pré-treinado "EleutherAI/pythia-70m-deduped," que pode ser encontrado no seguinte link: https://huggingface.co/EleutherAI/pythia-70m-deduped-v0.
 Com o emprego dessas ferramentas gratuitas, obtivemos resultados promissores e avançados na tradução de textos para a linguagem Cypher, representando um passo importante no desenvolvimento de soluções acessíveis e de alto desempenho na área de inteligência artificial. A utilização de recursos de código aberto e gratuito é fundamental para democratizar o acesso a tecnologias inovadoras, como as apresentadas neste artigo.
+
+# Dataset Utilizado para o Treinamento do Modelo
+
+O treinamento do modelo se baseou em um dataset especialmente criado, composto por duas colunas: uma coluna de instrução e outra de saída, seguindo o exemplo abaixo:
+Instrução: Create a cypher to the following command: Retorne os processos de Direito Ambiental que se baseiam na lei 10.350.
+Saída:
+
+```
+MATCH (p:Processo {tipo_de_direito: 'Direito Ambiental'})<-[:PERTENCE_AO_PROCESSO]-(dj:DecisaoJudicial)-[:BASEIA_SE]->(lei {numero: '10.350'})
+MATCH (adv:Advogado)-[:ENVOLVIDO_EM]->(p)
+RETURN p.numero as Número, p.titulo as Título, p.tipo_de_direito as Tipo_do_Direito
+```
+
+Para o treinamento, foram utilizadas mais de 86 mil linhas de registros no formato mencionado acima.
+O prefixo "Create a cypher to the following command:" foi adotado seguindo o mesmo passo a passo detalhado no artigo anterior (fornecer a referência do artigo).
