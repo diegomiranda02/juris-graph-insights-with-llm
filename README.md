@@ -4,7 +4,10 @@ Legal Insights through Graphs with LLM
 # Introdução
 
 No artigo intitulado "[Nome do artigo]", foram abordadas as vantagens do uso de um banco de dados orientado a grafo para análise em um escritório de advocacia. No entanto, identificou-se um obstáculo significativo para a utilização dessa tecnologia: a necessidade de treinamento dos advogados ou responsáveis para construir consultas na linguagem específica do banco de dados em grafo. Ao contrário dos bancos de dados relacionais, que possuem uma linguagem padrão (SQL), cada banco de dados em grafo utiliza sua própria linguagem, o que torna a adoção da tecnologia e a realização da análise mencionada no artigo inviáveis.
-A fim de superar esse desafio, propõe-se a implementação de um algoritmo de inteligência artificial capaz de compreender consultas em português e gerar a linguagem específica do banco de dados em grafo, neste caso, a linguagem Cypher do banco Neo4J. A figura abaixo ilustra o funcionamento da solução proposta: [Inserir a figura que ilustra o funcionamento da solução].
+A fim de superar esse desafio, propõe-se a implementação de um algoritmo de inteligência artificial capaz de compreender consultas em português e gerar a linguagem específica do banco de dados em grafo, neste caso, a linguagem Cypher do banco Neo4J. A figura abaixo ilustra o funcionamento da solução proposta: 
+
+![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/exemplo_do_funcionamento_do_modelo.png?raw=true)
+
 Com essa abordagem inovadora, espera-se facilitar o acesso à base de dados e possibilitar consultas de forma mais intuitiva e acessível para os profissionais do escritório de advocacia, eliminando a barreira da complexidade da linguagem de consulta do banco de dados em grafo. Essa solução pode representar um avanço significativo na adoção da tecnologia e na aplicação prática das análises mencionadas no artigo.
 
 
@@ -42,3 +45,14 @@ RETURN p.numero as Número, p.titulo as Título, p.tipo_de_direito as Tipo_do_Di
 
 Para o treinamento, foram utilizadas mais de 86 mil linhas de registros no formato mencionado acima.
 O prefixo "Create a cypher to the following command:" foi adotado seguindo o mesmo passo a passo detalhado no artigo anterior (fornecer a referência do artigo).
+
+# Modelo após o fine-tuning
+
+Após o processo de fine-tuning, o modelo apresentou um desempenho notável, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
+Link para o Modelo e Instruções para Testes: [Inserir o link para o modelo e suas respectivas instruções para testes aqui.] (Certifique-se de fornecer um link funcional que direcione os leitores para o modelo e suas instruções detalhadas)
+Com o dataset customizado e o modelo otimizado, esse projeto representa um avanço significativo no desenvolvimento de soluções de processamento de linguagem natural, demonstrando como o uso inteligente de dados e tecnologias acessíveis pode impulsionar o campo da inteligência artificial.
+
+# Implementação do Projeto
+
+![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
+
