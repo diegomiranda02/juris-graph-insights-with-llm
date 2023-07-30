@@ -50,7 +50,7 @@ def generate_report(data_content):
             t = st.empty()
             for i in range(len(value) + 1):
                 t.header("%s" % value[0:i])
-                time.sleep(0.04)
+                time.sleep(0.02)
             #st.header(value)
     
         elif key.startswith("subtitle") and isinstance(value, str):
@@ -58,7 +58,7 @@ def generate_report(data_content):
             t = st.empty()
             for i in range(len(value) + 1):
                 t.header("%s" % value[0:i])
-                time.sleep(0.04)
+                time.sleep(0.02)
             #st.header(value)
 
         elif isinstance(value, str):
@@ -66,7 +66,7 @@ def generate_report(data_content):
             t = st.empty()
             for i in range(len(value) + 1):
                 t.text("%s" % value[0:i])
-                time.sleep(0.04)
+                time.sleep(0.02)
         
         elif key.startswith("barchart") and isinstance(value, Dict):
             # Converting list to Dataframe
