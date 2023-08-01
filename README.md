@@ -54,5 +54,30 @@ Com o dataset customizado e o modelo otimizado, esse projeto representa um avan�
 
 # Implementação do Projeto
 
+Nesta seção, apresentaremos uma solução completa para permitir que o usuário digite consultas em linguagem natural em uma aplicação desenvolvida em Streamlit. A consulta inserida é processada por um modelo de linguagem com fine-tuning da Eleuther AI, traduzida para a linguagem Cypher e, em seguida, utilizada para consultar um banco de dados em grafo Neo4j. Os resultados são automaticamente renderizados em formato JSON e visualizados de forma intuitiva na interface do usuário. A figura abaixo mostra as etapas do processo desde a consulta feita pelo usuário até o resultado mostrado na interface:
+
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
+* Etapa 1: Interface de Consulta em Linguagem Natural
+Na aplicação Streamlit, criamos uma interface amigável onde o usuário pode inserir suas consultas em linguagem natural. Por exemplo, o usuário pode digitar a seguinte frase: "Me informe as leis que o juiz 3 já se baseou nos processos relativos a Direito do Consumidor". Essa consulta será processada e encaminhada para a próxima etapa.
+
+* Etapa 2: Tradução Automática com o Modelo de Linguagem
+Uma aplicação em Python recebe a consulta em linguagem natural e a encaminha para um modelo treinado com fine-tuning da Eleuther AI. Esse modelo tem a função de traduzir a consulta para a linguagem Cypher, adicionando o prefixo "Create a cypher statement to the following command". A consulta em Cypher gerada é enviada para a próxima etapa.
+
+* Etapa 3: Consulta no Banco de Dados Neo4j
+O código em Python, com a consulta em linguagem Cypher, é utilizado para consultar o banco de dados em grafo Neo4j. O banco de dados contém os nós e as arestas representando os processos judiciais e suas relações, permitindo consultas eficientes com base na linguagem Cypher.
+
+* Etapa 4: Retorno da Consulta em Cypher
+O modelo de linguagem retorna a consulta traduzida na linguagem Cypher para a aplicação desenvolvida em Python.
+
+* Etapa 5: Consulta dos Dados e Geração do JSON
+A aplicação em Python utiliza a consulta em Cypher para consultar o banco de dados Neo4j. Os dados obtidos são estruturados em formato JSON para facilitar o processamento e a visualização na interface do usuário.
+
+* Etapa 6: Visualização Automática na Interface do Usuário
+Os resultados em formato JSON são enviados para a interface do usuário, onde são automaticamente renderizados utilizando a classe BaseReport e a classe DataFromNode4JReport. Essa renderização possibilita a visualização dos dados de forma clara e intuitiva.
+
+* Etapa 7: Geração Automática do Relatório
+Na etapa final, o método generate_report no arquivo app.py recebe como parâmetro o JSON com os dados gerados na etapa anterior. Esse método renderiza automaticamente o relatório, proporcionando ao usuário uma visão completa e organizada dos resultados obtidos a partir da consulta em linguagem natural.
+
+Benefícios da Solução
+Com essa solução completa, os usuários podem interagir com o banco de dados Neo4j através de consultas em linguagem natural, sem a necessidade de conhecimento específico da linguagem Cypher. A tradução automática e a visualização dos resultados simplificam o processo de obtenção de informações valiosas e possibilitam a exploração de dados de forma mais acessível e eficiente. A aplicação desenvolvida em Streamlit oferece uma experiência amigável e intuitiva, tornando a interação com o banco de dados em grafo Neo4j uma tarefa simplificada e agradável.
