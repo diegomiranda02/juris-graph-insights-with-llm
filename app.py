@@ -32,8 +32,8 @@ def get_data(report_name: str, query: str):
     # Replace the first part of the query
     cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
 
-    dataFromNode4JReportTitle = "Data from Neo4J Report"
-    dataFromNode4JReportSubtitle = "---------------------------------"
+    dataFromNode4JReportTitle = "Relatório de Consultas em Linguagem Natural"
+    dataFromNode4JReportSubtitle = "Dados consultados diretamente do Neo4J"
     dataFromNeo4JReport = DataFromNode4JReport(dataFromNode4JReportTitle, dataFromNode4JReportSubtitle)
     dataFromNeo4JReport.resultFromCypherQuery(cypher_code)
     data = dataFromNeo4JReport.generateJSONReport()
