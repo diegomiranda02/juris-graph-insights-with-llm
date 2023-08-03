@@ -3,12 +3,12 @@ Legal Insights through Graphs with LLM
 
 # Introdução
 
-No artigo intitulado "[Nome do artigo]", foram abordadas as vantagens do uso de um banco de dados orientado a grafo para análise em um escritório de advocacia. No entanto, identificou-se um obstáculo significativo para a utilização dessa tecnologia: a necessidade de treinamento dos advogados ou responsáveis para construir consultas na linguagem específica do banco de dados em grafo. Ao contrário dos bancos de dados relacionais, que possuem uma linguagem padrão (SQL), cada banco de dados em grafo utiliza sua própria linguagem, o que torna a adoção da tecnologia e a realização da análise mencionada no artigo inviáveis.
+No artigo "[Nome do artigo]", foram abordadas as vantagens do uso de um banco de dados orientado a grafo para análise em um escritório de advocacia. No entanto, identificou-se um obstáculo para a utilização dessa tecnologia: a necessidade de treinamento dos advogados ou responsáveis pelo levantamento dos dados para construir consultas na linguagem específica do banco de dados em grafo. Ao contrário dos bancos de dados relacionais, que possuem uma linguagem padrão (SQL), cada banco de dados em grafo utiliza sua própria linguagem, o que torna a adoção da tecnologia e a realização da análise mencionada no artigo inviáveis.
 A fim de superar esse desafio, propõe-se a implementação de um algoritmo de inteligência artificial capaz de compreender consultas em português e gerar a linguagem específica do banco de dados em grafo, neste caso, a linguagem Cypher do banco Neo4J. A figura abaixo ilustra o funcionamento da solução proposta: 
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/exemplo_do_funcionamento_do_modelo.png?raw=true)
 
-Com essa abordagem inovadora, espera-se facilitar o acesso à base de dados e possibilitar consultas de forma mais intuitiva e acessível para os profissionais do escritório de advocacia, eliminando a barreira da complexidade da linguagem de consulta do banco de dados em grafo. Essa solução pode representar um avanço significativo na adoção da tecnologia e na aplicação prática das análises mencionadas no artigo.
+Com essa abordagem, espera-se facilitar o acesso à base de dados e possibilitar consultas de forma mais intuitiva e acessível para os profissionais do escritório de advocacia, eliminando a barreira da complexidade da linguagem de consulta do banco de dados em grafo. Essa solução pode representar um avanço na adoção da tecnologia e na aplicação prática das análises mencionadas no artigo.
 
 
 # Ferramentas Utilizadas
@@ -29,11 +29,11 @@ A plataforma Hugging Face foi a escolha para disponibilizar o modelo de intelig�
 
 * Modelo Pré-Treinado
 Neste projeto, utilizamos o modelo pré-treinado "EleutherAI/pythia-70m-deduped," que pode ser encontrado no seguinte link: https://huggingface.co/EleutherAI/pythia-70m-deduped-v0.
-Com o emprego dessas ferramentas gratuitas, obtivemos resultados promissores e avançados na tradução de textos para a linguagem Cypher, representando um passo importante no desenvolvimento de soluções acessíveis e de alto desempenho na área de inteligência artificial. A utilização de recursos de código aberto e gratuito é fundamental para democratizar o acesso a tecnologias inovadoras, como as apresentadas neste artigo.
+Com o emprego dessas ferramentas gratuitas, obtivemos resultados e avançados na tradução de textos para a linguagem Cypher, representando um passo importante no desenvolvimento de soluções acessíveis e de alto desempenho na área de inteligência artificial. A utilização de recursos de código aberto e gratuito é fundamental para democratizar o acesso a tecnologias, como as apresentadas neste artigo.
 
 # Dataset Utilizado para o Treinamento do Modelo
 
-O treinamento do modelo se baseou em um dataset especialmente criado, composto por duas colunas: uma coluna de instrução e outra de saída, seguindo o exemplo abaixo:
+O treinamento do modelo se baseou em um dataset criado especificamente para esse projeto, composto por duas colunas: uma coluna de instrução e outra de saída, seguindo o exemplo abaixo:
 Instrução: Create a cypher to the following command: Retorne os processos de Direito Ambiental que se baseiam na lei 10.350.
 Saída:
 
@@ -48,13 +48,12 @@ O prefixo "Create a cypher to the following command:" foi adotado seguindo o mes
 
 # Modelo após o fine-tuning
 
-Após o processo de fine-tuning, o modelo apresentou um desempenho notável, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
+Após o processo de fine-tuning, o modelo apresentou um bom desempenho, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
 Link para o Modelo e Instruções para Testes: [Inserir o link para o modelo e suas respectivas instruções para testes aqui.] (Certifique-se de fornecer um link funcional que direcione os leitores para o modelo e suas instruções detalhadas)
-Com o dataset customizado e o modelo otimizado, esse projeto representa um avanço significativo no desenvolvimento de soluções de processamento de linguagem natural, demonstrando como o uso inteligente de dados e tecnologias acessíveis pode impulsionar o campo da inteligência artificial.
 
 # Implementação do Projeto
 
-Nesta seção, apresentaremos uma solução completa para permitir que o usuário digite consultas em linguagem natural em uma aplicação desenvolvida em Streamlit. A consulta inserida é processada por um modelo de linguagem com fine-tuning da Eleuther AI, traduzida para a linguagem Cypher e, em seguida, utilizada para consultar um banco de dados em grafo Neo4j. Os resultados são automaticamente renderizados em formato JSON e visualizados de forma intuitiva na interface do usuário. A figura abaixo mostra as etapas do processo desde a consulta feita pelo usuário até o resultado mostrado na interface:
+Nesta seção, apresentaremos uma solução para permitir que o usuário digite consultas em linguagem natural em uma aplicação desenvolvida em Streamlit. A consulta inserida é processada por um modelo de linguagem com fine-tuning da Eleuther AI, traduzida para a linguagem Cypher e, em seguida, utilizada para consultar um banco de dados em grafo Neo4j. Os resultados são automaticamente renderizados em formato JSON e visualizados de forma intuitiva na interface do usuário. A figura abaixo mostra as etapas do processo desde a consulta feita pelo usuário até o resultado mostrado na interface:
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
@@ -307,4 +306,4 @@ def generate_report(data_content):
 ```
 
 Benefícios da Solução
-Com essa solução completa, os usuários podem interagir com o banco de dados Neo4j através de consultas em linguagem natural, sem a necessidade de conhecimento específico da linguagem Cypher. A tradução automática e a visualização dos resultados simplificam o processo de obtenção de informações valiosas e possibilitam a exploração de dados de forma mais acessível e eficiente. A aplicação desenvolvida em Streamlit oferece uma experiência intuitiva, tornando a interação com o banco de dados em grafo Neo4j uma tarefa simplificada.
+Com essa solução, os usuários podem interagir com o banco de dados Neo4j através de consultas em linguagem natural, sem a necessidade de conhecimento específico da linguagem Cypher. A tradução automática e a visualização dos resultados simplificam o processo de obtenção de informações importantes para o negócio e possibilitam a exploração de dados de forma mais acessível e prática. A aplicação desenvolvida em Streamlit oferece uma experiência intuitiva, tornando a interação com o banco de dados em grafo Neo4j uma tarefa simplificada.
