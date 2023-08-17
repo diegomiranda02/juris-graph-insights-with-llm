@@ -128,28 +128,43 @@ O código em Python, com a consulta em linguagem Cypher, é utilizado para consu
 Este trecho de código estabelece uma conexão com um banco de dados Neo4j, executa consultas no banco de dados e retorna os resultados em formato de tabela (DataFrame) usando a biblioteca Pandas. A função _run_query executa a consulta no banco de dados, e a função run_query chama a função anterior e retorna o resultado em formato tabular para análise e manipulação dos dados.
 
 ```python
-# Establish a connection to the Neo4j database
-uri = "bolt://localhost:7687"  # Replace with your Neo4j server URI
-username = "neo4j"  # Replace with your Neo4j username
-password = "12345678"  # Replace with your Neo4j password
+class Neo4jConnector:
+    def __init__(self, uri, username, password):
+        self.uri = uri
+        self.username = username
+        self.password = password
+        self.driver = None
 
-driver = GraphDatabase.driver(uri, auth=(username, password))
+    def connect(self):
+        self.driver = GraphDatabase.driver(self.uri, auth=(self.username, self.password))
 
-def _run_query(query: str):
-    result = None
-    with driver.session() as session:
-        result = session.run(query)
-        records = result.data()
-    # Close the database connection
-    driver.close()
+    def disconnect(self):
+        if self.driver:
+            self.driver.close()
 
-    return records
+    def _run_query(self, query):
+        result = None
+        with self.driver.session() as session:
+            result = session.run(query)
+            records = result.data()
+        return records
 
-def run_query(query: str) -> pd.DataFrame:
-    result = _run_query(query)
-    df = pd.DataFrame.from_dict(result)
+    def run_query(self, query) -> pd.DataFrame:
+        result = self._run_query(query)
+        df = pd.DataFrame.from_dict(result)
+        return df
     
-    return df
+class Neo4JAPI:
+    def __init__(self):
+        # The URI, username, and password can be retrieved from system variables or securely stored in a configuration file.
+        # In this example, we are directly passing the values for demonstration purposes.
+        self.connector = Neo4jConnector("bolt://localhost:7687", "neo4j", "12345678")
+
+    def run_query(self, query) -> pd.DataFrame:
+        self.connector.connect()
+        result = self.connector.run_query(query)
+        self.connector.disconnect()
+        return result
 ```
 
 # Consulta dos Dados e Geração do JSON
