@@ -57,7 +57,7 @@ Nesta seção, descreve-se a solução para permitir que o usuário digite consu
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
-* Interface de Consulta em Linguagem Natural
+# Interface de Consulta em Linguagem Natural
 
 Nossa implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Informe-me sobre as leis utilizadas pelo juiz 3 em casos relacionados a Direito do Consumidor". 
 
@@ -73,9 +73,9 @@ if st.button("Enviar"):
 Neste trecho de código, um campo de entrada de texto é criado usando a função text_input do Streamlit. Isso permite que o usuário digite sua consulta em linguagem natural. Um botão "Enviar" é criado usando a função button do Streamlit para permitir ao usuário enviar a consulta. Durante o processamento da consulta, uma animação de carregamento é exibida utilizando a função spinner do Streamlit para fornecer feedback visual de que a consulta está sendo processada.
 
 
-* Tradução Automática com o Modelo de Linguagem
+# Tradução Automática com o Modelo de Linguagem
 
-  Em seguida, utilizamos um modelo de linguagem treinado pela Eleuther AI para realizar a tradução automática da consulta em linguagem natural para a linguagem Cypher. Isso é necessário para que a consulta possa ser executada em um banco de dados Neo4j baseado em grafo. Aqui está o código correspondente:
+  Em seguida, utilizamos um modelo de linguagem da Eleuther AI após um processo de fine-tuning para realizar a tradução automática da consulta em linguagem natural para a linguagem Cypher. Isso é necessário para que a consulta possa ser executada em um banco de dados Neo4j baseado em grafo. Aqui está o código para executar o modelo:
 
 ```python
 def generate_response(prompt, model_name):
@@ -122,7 +122,7 @@ response = generate_response(prompt, model_name)
 print(response)
 ```
 
-* Consulta no Banco de Dados Neo4j
+# Consulta no Banco de Dados Neo4j
 O código em Python, com a consulta em linguagem Cypher, é utilizado para consultar o banco de dados em grafo Neo4j. O banco de dados contém os nós e as arestas representando os processos judiciais e suas relações, permitindo consultas eficientes com base na linguagem Cypher.
 
 Este trecho de código estabelece uma conexão com um banco de dados Neo4j, executa consultas no banco de dados e retorna os resultados em formato de tabela (DataFrame) usando a biblioteca Pandas. A função _run_query executa a consulta no banco de dados, e a função run_query chama a função anterior e retorna o resultado em formato tabular para análise e manipulação dos dados.
@@ -152,10 +152,7 @@ def run_query(query: str) -> pd.DataFrame:
     return df
 ```
 
-* Etapa 4: Retorno da Consulta em Cypher
-O modelo de linguagem retorna a consulta traduzida na linguagem Cypher para a aplicação desenvolvida em Python.
-
-* Consulta dos Dados e Geração do JSON
+# Consulta dos Dados e Geração do JSON
 A aplicação em Python utiliza a consulta em Cypher para consultar o banco de dados Neo4j. Os dados obtidos são estruturados em formato JSON para facilitar o processamento e a visualização na interface do usuário.
 
 O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport. A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit.
@@ -212,7 +209,7 @@ Este método, chamado generateJSONReport, é responsável por gerar o JSON final
 
 A classe DataFromNode4JReport é projetada para receber consultas em linguagem Cypher, executá-las no banco de dados Neo4j, converter o resultado em um formato de dicionário e gerar um JSON que representa o relatório. Esse JSON específico é concebido para ser facilmente renderizado automaticamente pela interface do usuário em Streamlit, proporcionando uma visualização clara e organizada dos dados obtidos no banco de dados Neo4j.
 
-# Visualização Automática na Interface do Usuário
+# Visualização Automática na Interface do Usuário (PADRONIZAÇÃO?)
 Os resultados em formato JSON são enviados para a interface do usuário, onde são automaticamente estruturados utilizando a classe BaseReport e a classe DataFromNode4JReport. Essa padronização possibilita a visualização dos dados de forma clara e intuitiva.
 
 Neste trecho de código, a função get_data recebe uma consulta em linguagem natural, converte-a para uma consulta em linguagem Cypher, executa a consulta no banco de dados Neo4j e gera um JSON com os dados obtidos. O JSON é preparado para ser exibido na interface do usuário, facilitando a visualização dos resultados da consulta do banco de dados.
