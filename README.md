@@ -38,7 +38,8 @@ Instrução: Create a cypher to the following command: Retorne os processos de D
 Saída:
 
 ```
-MATCH (p:Processo {tipo_de_direito_do_processo: 'Direito Tributário'})<-[:PERTENCE_AO_PROCESSO]-(dj:DecisaoJudicial)-[:FAZ_REFERENCIA_A]->(l:Lei {lei_numero: '939 de 1992'}) RETURN p.numero_do_processo as Processo, p.titulo_do_processo as Título, p.tipo_de_direito_do_processo as Tipo_do_Direito
+MATCH (p:Processo {tipo_de_direito_do_processo: 'Direito Tributário'})<-[:PERTENCE_AO_PROCESSO]-(dj:DecisaoJudicial)-[:FAZ_REFERENCIA_A]->(l:Lei {lei_numero: '939 de 1992'})
+RETURN p.numero_do_processo as Processo, p.titulo_do_processo as Título, p.tipo_de_direito_do_processo as Tipo_do_Direito
 ```
 
 Para o treinamento, foram utilizadas mais de 86 mil linhas de registros no formato mencionado acima.
