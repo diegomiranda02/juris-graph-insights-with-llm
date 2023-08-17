@@ -15,21 +15,22 @@ Com essa abordagem, espera-se facilitar o acesso à base de dados e possibilitar
 
 Neste artigo, descreveremos as ferramentas gratuitas que foram empregadas no desenvolvimento do projeto, permitindo a construção de uma solução eficiente e acessível. Abaixo estão as principais ferramentas utilizadas:
 
-* H2O LLM Studio para Treinar o Modelo e Fazer Upload na Hugging Face
-O software H2O LLM Studio desempenhou um papel fundamental no processo de fine-tuning do modelo para tradução do português para a linguagem Cypher. O modelo específico adotado foi o da Eleuther AI (faça referência ao modelo utilizado).
+* **H2O LLM Studio para treinar o modelo e fazer ppload na Hugging Face:**
+O software H2O LLM Studio desempenhou um papel fundamental no processo de fine-tuning do modelo para tradução do português para a linguagem Cypher. O modelo específico adotado foi o da [Eleuther AI](https://huggingface.co/EleutherAI).
 
-* Google Colab
-Para o treinamento do modelo, foi essencial o uso de uma Unidade de Processamento Gráfico (GPU). O Google Colab ofereceu uma GPU de forma gratuita, que se mostrou mais que suficiente para o treinamento necessário. Para utilizar o Google Colab, foram executados os passos utilizando a interface de linha de comando (CLI). Existem duas opções para utilizar essa interface: a primeira, seguindo o tutorial disponível em https://github.com/diegomiranda02/cli_HF_h2o_llm_studio; e a segunda, baixando o fork do projeto em https://github.com/diegomiranda02/h2o-llmstudio e seguindo o passo a passo detalhado na seção "Run H2O LLM Studio with command line interface (CLI)."
+* **Google Colab:**
+Para o treinamento do modelo, foi essencial o uso de uma Unidade de Processamento Gráfico (GPU). O Google Colab ofereceu uma GPU de forma gratuita, que se mostrou mais que suficiente para o treinamento necessário. Para utilizar o Google Colab, foram executados os passos utilizando a interface de linha de comando (CLI). Existem duas opções para utilizar essa interface: a primeira, seguindo o tutorial disponível em https://github.com/diegomiranda02/cli_HF_h2o_llm_studio; e a segunda, baixando o fork do projeto H2O LLM Studio em https://github.com/diegomiranda02/h2o-llmstudio e seguindo o passo a passo detalhado na seção "Run H2O LLM Studio with command line interface (CLI)."
 
-* Neo4J
-Para armazenar os nós e as arestas representando a relação dos dados, utilizamos um banco de dados orientado a grafos, o Neo4J.
+* **Neo4J:**
+A escolha para armazenar os nós e as arestas representando a relação dos dados foi o banco de dados orientado a grafos Neo4J.
 
-* Conta na Hugging Face para Disponibilizar o Modelo de Inteligência Artificial Treinado
-A plataforma Hugging Face foi a escolha para disponibilizar o modelo de inteligência artificial treinado. Criamos uma conta em seu site e, por meio do software H2O LLM Studio, realizamos o upload do modelo.
+* **Conta na Hugging Face para disponibilizar o modelo de Inteligência Artificial treinado:**
+A plataforma Hugging Face foi a escolha para disponibilizar o modelo de inteligência artificial treinado. Foi criada uma conta no site e, por meio do software H2O LLM Studio, foi realizado o upload do modelo.
 
-* Modelo Pré-Treinado
-Neste projeto, utilizamos o modelo pré-treinado "EleutherAI/pythia-70m-deduped," que pode ser encontrado no seguinte link: https://huggingface.co/EleutherAI/pythia-70m-deduped-v0.
-Com o emprego dessas ferramentas gratuitas, obtivemos resultados e avançados na tradução de textos para a linguagem Cypher, representando um passo importante no desenvolvimento de soluções acessíveis e de alto desempenho na área de inteligência artificial. A utilização de recursos de código aberto e gratuito é fundamental para democratizar o acesso a tecnologias, como as apresentadas neste artigo.
+* **Modelo Pré-Treinado:**
+Neste projeto, foi utilizado o modelo pré-treinado "EleutherAI/pythia-70m-deduped," que pode ser encontrado no seguinte link https://huggingface.co/EleutherAI/pythia-70m-deduped-v0.
+
+Com o emprego dessas ferramentas gratuitas, foram obtidos resultados relevantes na tradução de textos para a linguagem Cypher, tornando possível o desenvolvimento de soluções acessíveis e de baixo custo na área de inteligência artificial. A utilização de recursos de código aberto e gratuito é fundamental para democratizar o acesso a tecnologias, como as apresentadas neste artigo.
 
 # Dataset Utilizado para o Treinamento do Modelo
 
@@ -43,16 +44,16 @@ RETURN p.numero_do_processo as Processo, p.titulo_do_processo as Título, p.tipo
 ```
 
 Para o treinamento, foram utilizadas mais de 86 mil linhas de registros no formato mencionado acima.
-O prefixo "Create a cypher to the following command:" foi adotado seguindo o mesmo passo a passo detalhado no artigo anterior (fornecer a referência do artigo).
+O prefixo "Create a cypher to the following command:" foi adotado seguindo o mesmo passo a passo detalhado no artigo [Fine-tuning an LLM model with H2O LLM Studio to generate Cypher statements](https://towardsdatascience.com/fine-tuning-an-llm-model-with-h2o-llm-studio-to-generate-cypher-statements-3f34822ad5).
 
 # Modelo após o fine-tuning
 
 Após o processo de fine-tuning, o modelo apresentou um bom desempenho, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
-Link para o Modelo e Instruções para Testes: [Inserir o link para o modelo e suas respectivas instruções para testes aqui.] (Certifique-se de fornecer um link funcional que direcione os leitores para o modelo e suas instruções detalhadas)
+Link para o Modelo e Instruções para Testes: [Inserir o link para o modelo e suas respectivas instruções para testes aqui.] 
 
 # Implementação do Projeto
 
-Nesta seção, apresentaremos uma solução para permitir que o usuário digite consultas em linguagem natural em uma aplicação desenvolvida em Streamlit. A consulta inserida é processada por um modelo de linguagem com fine-tuning da Eleuther AI, traduzida para a linguagem Cypher e, em seguida, utilizada para consultar um banco de dados em grafo Neo4j. Os resultados são automaticamente renderizados em formato JSON e visualizados de forma intuitiva na interface do usuário. A figura abaixo mostra as etapas do processo desde a consulta feita pelo usuário até o resultado mostrado na interface:
+Nesta seção, descreve-se a solução para permitir que o usuário digite consultas em linguagem natural em uma aplicação desenvolvida em Streamlit. A consulta inserida é processada por um modelo de linguagem com fine-tuning da Eleuther AI, traduzida para a linguagem Cypher e, em seguida, utilizada para consultar um banco de dados em grafo Neo4j. Os resultados são automaticamente renderizados em formato JSON e visualizados de forma intuitiva na interface do usuário. A figura abaixo mostra as etapas do processo desde a consulta feita pelo usuário até o resultado mostrado na interface:
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
