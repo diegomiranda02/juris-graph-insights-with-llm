@@ -34,13 +34,11 @@ Com o emprego dessas ferramentas gratuitas, obtivemos resultados e avançados na
 # Dataset Utilizado para o Treinamento do Modelo
 
 O treinamento do modelo se baseou em um dataset criado especificamente para esse projeto, composto por duas colunas: uma coluna de instrução e outra de saída, seguindo o exemplo abaixo:
-Instrução: Create a cypher to the following command: Retorne os processos de Direito Ambiental que se baseiam na lei 10.350.
+Instrução: Create a cypher to the following command: Retorne os processos de Direito Ambiental que se baseiam na lei 939 de 1992.
 Saída:
 
 ```
-MATCH (p:Processo {tipo_de_direito: 'Direito Ambiental'})<-[:PERTENCE_AO_PROCESSO]-(dj:DecisaoJudicial)-[:BASEIA_SE]->(lei {numero: '10.350'})
-MATCH (adv:Advogado)-[:ENVOLVIDO_EM]->(p)
-RETURN p.numero as Número, p.titulo as Título, p.tipo_de_direito as Tipo_do_Direito
+MATCH (p:Processo {tipo_de_direito_do_processo: 'Direito Tributário'})<-[:PERTENCE_AO_PROCESSO]-(dj:DecisaoJudicial)-[:FAZ_REFERENCIA_A]->(l:Lei {lei_numero: '939 de 1992'}) RETURN p.numero_do_processo as Processo, p.titulo_do_processo as Título, p.tipo_de_direito_do_processo as Tipo_do_Direito
 ```
 
 Para o treinamento, foram utilizadas mais de 86 mil linhas de registros no formato mencionado acima.
