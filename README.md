@@ -57,92 +57,72 @@ Nesta seção, descreve-se a solução para permitir que o usuário digite consu
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
-* Etapa 1: A interface de consulta em linguagem natural desenvolvida no ambiente Streamlit permite que os usuários insiram suas consultas de forma intuitiva. Ao utilizar a aplicação, o usuário tem a liberdade de digitar perguntas em linguagem natural, como por exemplo: "Me informe as leis que o juiz 3 já se baseou nos processos relativos a Direito do Consumidor". A partir desse ponto, a consulta é submetida a um processamento e encaminhada para a próxima etapa do fluxo de execução.
+* Interface de Consulta em Linguagem Natural
+
+Nossa implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Informe-me sobre as leis utilizadas pelo juiz 3 em casos relacionados a Direito do Consumidor". 
 
 ```python
-command = st.text_input("O que deseja?", "Me informe as leis que juiz 3 já se baseou nos processos relativos a Direito do Consumidor", disabled=False)
-```
+command = st.text_input("O que deseja?", "Informe-me sobre as leis utilizadas pelo juiz 3 em casos relacionados a Direito do Consumidor", disabled=False)
 
-Nesta linha, é criado um campo de entrada de texto usando a função text_input do Streamlit. Esse campo permite que o usuário digite sua consulta em linguagem natural. O primeiro argumento da função é o rótulo ou instrução que aparecerá ao lado do campo de entrada. O segundo argumento é o texto padrão que aparecerá no campo de entrada, caso o usuário não digite nada. O parâmetro disabled é definido como False, o que significa que o campo não estará desativado para edição pelo usuário.
-
-```python
 if st.button("Enviar"):
+    with st.spinner('Consulta em andamento...'):
+        # Processamento da consulta e geração dos resultados
+
 ```
 
-Nesta linha, é criado um botão "Enviar" usando a função button do Streamlit. Esse botão será usado para enviar a consulta digitada pelo usuário.
+Neste trecho de código, um campo de entrada de texto é criado usando a função text_input do Streamlit. Isso permite que o usuário digite sua consulta em linguagem natural. Um botão "Enviar" é criado usando a função button do Streamlit para permitir ao usuário enviar a consulta. Durante o processamento da consulta, uma animação de carregamento é exibida utilizando a função spinner do Streamlit para fornecer feedback visual de que a consulta está sendo processada.
+
+
+* Tradução Automática com o Modelo de Linguagem
+
+  Em seguida, utilizamos um modelo de linguagem treinado pela Eleuther AI para realizar a tradução automática da consulta em linguagem natural para a linguagem Cypher. Isso é necessário para que a consulta possa ser executada em um banco de dados Neo4j baseado em grafo. Aqui está o código correspondente:
 
 ```python
-with st.spinner('Consulta em andamento...'):
-```
-
-Aqui, é utilizada a função spinner do Streamlit para exibir uma animação de carregamento (um spinner) enquanto a consulta está sendo processada. Isso fornece uma resposta visual ao usuário de que a consulta está em andamento.
-
-* Etapa 2: Tradução Automática com o Modelo de Linguagem
-Uma aplicação em Python recebe a consulta em linguagem natural e a encaminha para um modelo treinado com fine-tuning da Eleuther AI. Esse modelo tem a função de traduzir a consulta para a linguagem Cypher, adicionando o prefixo "Create a cypher statement to the following command". A consulta em Cypher gerada é enviada para a próxima etapa.
-
-Este código utiliza a biblioteca PyTorch e a biblioteca Hugging Face Transformers para criar um modelo de geração de linguagem capaz de traduzir consultas em linguagem natural para a linguagem Cypher, que é uma linguagem de consulta usada em bancos de dados em grafo, como o Neo4j. Vamos explicar cada parte do código:
-
-```python
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-```
-
-Nesta linha, é verificado se há uma GPU (unidade de processamento gráfico) disponível usando a função torch.cuda.is_available(). Se uma GPU estiver disponível, o dispositivo é definido como "cuda:0", caso contrário, é definido como "cpu". Essa definição é importante para determinar onde o modelo será executado, se na GPU ou na CPU.
-
-```python
-tokenizer = AutoTokenizer.from_pretrained("diegomiranda/eleuther_70m_cypher_generator")
-```
-
-Nesta linha, é carregado um tokenizador pré-treinado da Hugging Face para o modelo "diegomiranda/eleuther_70m_cypher_generator". O tokenizador é responsável por transformar o texto em tokens que o modelo pode entender.
-
-```python
-model = AutoModelForCausalLM.from_pretrained("diegomiranda/eleuther_70m_cypher_generator").to(device)
-```
-
-Aqui, o modelo pré-treinado "diegomiranda/eleuther_70m_cypher_generator" é carregado da Hugging Face e colocado no dispositivo definido anteriormente (GPU ou CPU) usando o método .to(device).
-
-```python
-prefix = "\nCreate a Cypher statement to answer the following question:"
-```
-
-O código define um prefixo que será adicionado à consulta em linguagem natural antes de ser traduzida para Cypher.
-
-```python
-def generate_cypher(prompt): ...
-```
-
-Esta função chamada generate_cypher recebe como entrada um texto de "prompt", que representa a consulta em linguagem natural que o usuário deseja traduzir para Cypher.
-
-```python
-inputs = tokenizer(f"{prefix}{prompt}", return_tensors="pt", add_special_tokens=False).to(device)
-```
-
-O texto de "prompt" é pré-processado pelo tokenizador, incluindo o prefixo definido anteriormente. Os tokens são convertidos em tensores PyTorch e movidos para o dispositivo definido.
-
-```python
-tokens = model.generate(**inputs, max_new_tokens=256, temperature=0.0, repetition_penalty=1.0, num_beams=4)[0]
-```
-
-O modelo de geração de linguagem é usado para traduzir o texto em tokens para a linguagem Cypher. Os parâmetros como max_new_tokens, temperature, repetition_penalty e num_beams controlam a geração dos tokens.
-
-```python
-tokens = tokens[inputs["input_ids"].shape[1]:]
-```
-
-Os tokens resultantes são extraídos, excluindo os tokens adicionados pelo tokenizador.
-
-```python
-result_test = tokenizer.decode(tokens, skip_special_tokens=True)
-```
-
-Os tokens são decodificados de volta para texto usando o tokenizador, excluindo os tokens especiais adicionados durante o processamento.
-
-```python
-return result_test
+def generate_response(prompt, model_name):
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name,
+        use_fast=True,
+        trust_remote_code=True,
+    )
+    
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float32,
+        device_map={"": "cpu"},
+        trust_remote_code=True,
+    )
+    model.cpu().eval()
+    
+    inputs = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).to("cpu")
+    
+    tokens = model.generate(
+        input_ids=inputs["input_ids"],
+        attention_mask=inputs["attention_mask"],
+        min_new_tokens=2,
+        max_new_tokens=500,
+        do_sample=False,
+        num_beams=2,
+        temperature=float(0.0),
+        repetition_penalty=float(1.0),
+        renormalize_logits=True
+    )[0]
+    
+    tokens = tokens[inputs["input_ids"].shape[1]:]
+    answer = tokenizer.decode(tokens, skip_special_tokens=True)
+    
+    return answer
 ```
 
 A função retorna a tradução final em linguagem Cypher como texto.
 
-* Etapa 3: Consulta no Banco de Dados Neo4j
+```python
+model_name = "diegomiranda/EleutherAI-70M-cypher-generator"
+prompt = "Create a Cypher statement to answer the following question:Retorne os processos de Direito Tributário que se baseiam em lei 939 de 1992?<|endoftext|>"
+response = generate_response(prompt, model_name)
+print(response)
+```
+
+* Consulta no Banco de Dados Neo4j
 O código em Python, com a consulta em linguagem Cypher, é utilizado para consultar o banco de dados em grafo Neo4j. O banco de dados contém os nós e as arestas representando os processos judiciais e suas relações, permitindo consultas eficientes com base na linguagem Cypher.
 
 Este trecho de código estabelece uma conexão com um banco de dados Neo4j, executa consultas no banco de dados e retorna os resultados em formato de tabela (DataFrame) usando a biblioteca Pandas. A função _run_query executa a consulta no banco de dados, e a função run_query chama a função anterior e retorna o resultado em formato tabular para análise e manipulação dos dados.
@@ -175,7 +155,7 @@ def run_query(query: str) -> pd.DataFrame:
 * Etapa 4: Retorno da Consulta em Cypher
 O modelo de linguagem retorna a consulta traduzida na linguagem Cypher para a aplicação desenvolvida em Python.
 
-* Etapa 5: Consulta dos Dados e Geração do JSON
+* Consulta dos Dados e Geração do JSON
 A aplicação em Python utiliza a consulta em Cypher para consultar o banco de dados Neo4j. Os dados obtidos são estruturados em formato JSON para facilitar o processamento e a visualização na interface do usuário.
 
 O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport. A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit.
@@ -232,7 +212,7 @@ Este método, chamado generateJSONReport, é responsável por gerar o JSON final
 
 A classe DataFromNode4JReport é projetada para receber consultas em linguagem Cypher, executá-las no banco de dados Neo4j, converter o resultado em um formato de dicionário e gerar um JSON que representa o relatório. Esse JSON específico é concebido para ser facilmente renderizado automaticamente pela interface do usuário em Streamlit, proporcionando uma visualização clara e organizada dos dados obtidos no banco de dados Neo4j.
 
-* Etapa 6: Visualização Automática na Interface do Usuário
+# Visualização Automática na Interface do Usuário
 Os resultados em formato JSON são enviados para a interface do usuário, onde são automaticamente estruturados utilizando a classe BaseReport e a classe DataFromNode4JReport. Essa padronização possibilita a visualização dos dados de forma clara e intuitiva.
 
 Neste trecho de código, a função get_data recebe uma consulta em linguagem natural, converte-a para uma consulta em linguagem Cypher, executa a consulta no banco de dados Neo4j e gera um JSON com os dados obtidos. O JSON é preparado para ser exibido na interface do usuário, facilitando a visualização dos resultados da consulta do banco de dados.
@@ -257,7 +237,7 @@ def get_data(report_name: str, query: str):
     return json.loads(data)
 ```
 
-* Etapa 7: Geração Automática do Relatório
+# Geração Automática do Relatório
 Na etapa final, o método generate_report no arquivo app.py recebe como parâmetro o JSON com os dados gerados na etapa anterior. Esse método renderiza automaticamente o relatório, proporcionando ao usuário uma visão completa e organizada dos resultados obtidos a partir da consulta em linguagem natural.
 
 Este trecho de código recebe um JSON no formato especificado com a classe BaseReport e renderiza cada componente na biblioteca Streamlit automaticamente.
