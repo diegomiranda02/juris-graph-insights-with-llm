@@ -160,49 +160,26 @@ O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que h
 Vamos explicar o que cada parte do código faz:
 
 ```python
-def __init__(self, title:str, subtitle:str):
-```
+class DataFromNode4JReport(BaseJSONReport):
 
-O método __init__ é o construtor da classe DataFromNode4JReport. Ele recebe como parâmetros title e subtitle, que são usados para definir o título e o subtítulo do relatório.
+    def __init__(self, title:str, subtitle:str):
+        super(DataFromNode4JReport, self).__init__(title, subtitle)
 
-```python
-super(DataFromNode4JReport, self).__init__(title, subtitle)
-```
+    def resultFromCypherQuery(self, query: str) -> None:
+        # Instantiate the Neo4JAPI class
+        neo4jApi = Neo4JAPI()
 
-Na linha acima, o construtor da classe pai (BaseJSONReport) é chamado usando a função super(). Isso é feito para inicializar as propriedades da classe pai e garantir que a classe filha (DataFromNode4JReport) herde suas funcionalidades.
+        # Send the query to the Neo4J Database
+        result = neo4jApi.run_query(query)
+        
+        # Convert the dataframe to a dictionary
+        result_dict = result.to_dict(orient='records')
 
-```python
-def resultFromCypherQuery(self, query: str) -> None:
-```
-
-Este método, chamado resultFromCypherQuery, é responsável por receber a consulta em linguagem Cypher (query) e executá-la no banco de dados Neo4j. O resultado da consulta é convertido em um dicionário e armazenado internamente para ser usado na geração do JSON.
-
-```python
-result = run_query(query)
-```
-
-A função run_query é chamada para executar a consulta no banco de dados Neo4j e o resultado é armazenado na variável result.
-
-```python
-result_dict = result.to_dict(orient='records')
-```
-
-O resultado da consulta (que é um DataFrame) é convertido em um dicionário usando o método to_dict, com orientação 'records'. Essa orientação resulta em um dicionário onde cada registro do DataFrame se torna um item na lista de dicionários.
-
-```python
-self.addTextData(str(query))
-```
-
-A consulta original em linguagem Cypher é adicionada ao relatório usando o método addTextData, para que o usuário possa visualizar a consulta que foi executada.
-
-```python
-self.addTableData("Result", result_dict)
-```
-
-Os dados resultantes da consulta em forma de dicionário são adicionados ao relatório como uma tabela, usando o método addTableData.
-
-```python
-def generateJSONReport(self) -> Dict:
+        self.addTextData(str(query))
+        self.addTableData("Result", result_dict)
+    
+    def generateJSONReport(self) -> Dict:
+        return super().generateJSONReport()
 ```
 
 Este método, chamado generateJSONReport, é responsável por gerar o JSON final do relatório. Ele retorna o resultado gerado a partir da chamada do método generateJSONReport da classe pai (BaseJSONReport), que foi herdado.
