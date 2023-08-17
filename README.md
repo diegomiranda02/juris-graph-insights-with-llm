@@ -59,10 +59,10 @@ Nesta seção, descreve-se a solução para permitir que o usuário digite consu
 
 # Interface de Consulta em Linguagem Natural
 
-Nossa implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Informe-me sobre as leis utilizadas pelo juiz 3 em casos relacionados a Direito do Consumidor". 
+A implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Quais processos que fazem referencia a lei 939 de 1992 na área de Direito do Consumidor?". 
 
 ```python
-command = st.text_input("O que deseja?", "Informe-me sobre as leis utilizadas pelo juiz 3 em casos relacionados a Direito do Consumidor", disabled=False)
+command = st.text_input("O que deseja?", "Quais processos que fazem referencia a lei 939 de 1992 na área de Direito do Consumidor?", disabled=False)
 
 if st.button("Enviar"):
     with st.spinner('Consulta em andamento...'):
