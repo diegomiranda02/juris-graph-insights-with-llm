@@ -57,7 +57,7 @@ Nesta seção, descreve-se a solução para permitir que o usuário digite consu
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
-* Etapa 1: A interface de consulta em linguagem natural desenvolvida no ambiente Streamlit permite que os usuários insiram suas consultas de forma intuitiva. Ao utilizar a aplicação, o usuário tem a liberdade de digitar perguntas em linguagem natural, como por exemplo: "Me informe as leis que o juiz 3 já se baseou nos processos relativos a Direito do Consumidor". A partir desse ponto, a consulta é submetida a um processo de processamento e encaminhada para a próxima etapa do fluxo de execução.
+* Etapa 1: A interface de consulta em linguagem natural desenvolvida no ambiente Streamlit permite que os usuários insiram suas consultas de forma intuitiva. Ao utilizar a aplicação, o usuário tem a liberdade de digitar perguntas em linguagem natural, como por exemplo: "Me informe as leis que o juiz 3 já se baseou nos processos relativos a Direito do Consumidor". A partir desse ponto, a consulta é submetida a um processamento e encaminhada para a próxima etapa do fluxo de execução.
 
 ```python
 command = st.text_input("O que deseja?", "Me informe as leis que juiz 3 já se baseou nos processos relativos a Direito do Consumidor", disabled=False)
