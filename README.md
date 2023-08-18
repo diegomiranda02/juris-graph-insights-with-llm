@@ -59,10 +59,10 @@ Nesta seção, descreve-se a solução para permitir que o usuário digite consu
 
 # Interface de Consulta em Linguagem Natural
 
-A implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Quais processos que fazem referencia a lei 939 de 1992 na área de Direito do Consumidor?". 
+A implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Quais processos que fazem referência à lei 939 de 1992 na área de Direito do Consumidor?". 
 
 ```python
-command = st.text_input("O que deseja?", "Quais processos que fazem referencia a lei 939 de 1992 na área de Direito do Consumidor?", disabled=False)
+command = st.text_input("O que deseja?", "Quais processos que fazem referência à lei 939 de 1992 na área de Direito do Consumidor?", disabled=False)
 
 if st.button("Enviar"):
     with st.spinner('Consulta em andamento...'):
@@ -71,7 +71,6 @@ if st.button("Enviar"):
 ```
 
 Neste trecho de código, um campo de entrada de texto é criado usando a função text_input do Streamlit. Isso permite que o usuário digite sua consulta em linguagem natural. Um botão "Enviar" é criado usando a função button do Streamlit para permitir ao usuário enviar a consulta. Durante o processamento da consulta, uma animação de carregamento é exibida utilizando a função spinner do Streamlit para fornecer feedback visual de que a consulta está sendo processada.
-
 
 # Tradução Automática com o Modelo de Linguagem
 
@@ -125,7 +124,7 @@ print(response)
 # Consulta no Banco de Dados Neo4j
 O código em Python, com a consulta em linguagem Cypher, é utilizado para consultar o banco de dados em grafo Neo4j. O banco de dados contém os nós e as arestas representando os processos judiciais e suas relações, permitindo consultas eficientes com base na linguagem Cypher.
 
-Este trecho de código estabelece uma conexão com um banco de dados Neo4j, executa consultas no banco de dados e retorna os resultados em formato de tabela (DataFrame) usando a biblioteca Pandas. A função _run_query executa a consulta no banco de dados, e a função run_query chama a função anterior e retorna o resultado em formato tabular para análise e manipulação dos dados.
+Este trecho de código estabelece uma conexão com um banco de dados Neo4j, executa consultas no banco de dados e retorna os resultados em formato de tabela (DataFrame) usando a biblioteca Pandas. 
 
 ```python
 class Neo4jConnector:
@@ -168,9 +167,7 @@ class Neo4JAPI:
 ```
 
 # Consulta dos Dados e Geração do JSON
-A aplicação em Python utiliza a consulta em Cypher para consultar o banco de dados Neo4j. Os dados obtidos são estruturados em formato JSON para facilitar o processamento e a visualização na interface do usuário.
-
-O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport. A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit.
+O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport. A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit. Os dados obtidos são estruturados em formato JSON para facilitar o processamento e a visualização na interface do usuário.
 
 Vamos explicar o que cada parte do código faz:
 
