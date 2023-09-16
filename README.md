@@ -346,7 +346,7 @@ Acesse http://127.0.0.1:8000/llm_api?query="Retorne os processos de Direito Trib
 
 Abaixo um vídeo demonstrando a execução da aplicação:
 
-![Execução da aplicação](video/aplicacao_em_streamlit.mp4)
+![Execução da aplicação](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/video/aplicacao_em_streamlit.mp4?raw=true)
 
 ## Conclusão
 
