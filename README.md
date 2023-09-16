@@ -46,6 +46,14 @@ RETURN p.numero_do_processo as Processo, p.titulo_do_processo as Título, p.tipo
 Para o treinamento, foram utilizadas mais de 86 mil linhas de registros no formato mencionado acima.
 O prefixo "Create a cypher to the following command:" foi adotado seguindo o mesmo passo a passo detalhado no artigo [Fine-tuning an LLM model with H2O LLM Studio to generate Cypher statements](https://towardsdatascience.com/fine-tuning-an-llm-model-with-h2o-llm-studio-to-generate-cypher-statements-3f34822ad5).
 
+Para gerar o dataset utilizado neste projeto para o processo de fine tuning do algoritmo BERT, execute o seguinte comando:
+
+```python
+python scripts/pt_BR/gen_dataset_to_train_the_LLM.py
+```
+
+O dataset será gerado em um arquivo .csv com o nome 'result.csv'.
+
 # Modelo após o fine-tuning
 
 Após o processo de fine-tuning, o modelo apresentou um bom desempenho, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
