@@ -15,11 +15,11 @@ Com essa abordagem, espera-se facilitar o acesso à base de dados e possibilitar
 
 Neste artigo, descreveremos as ferramentas gratuitas que foram empregadas no desenvolvimento do projeto, permitindo a construção de uma solução eficiente e acessível. Abaixo estão as principais ferramentas utilizadas:
 
-* **H2O LLM Studio para treinar o modelo e fazer ppload na Hugging Face:**
+* **H2O LLM Studio para treinar o modelo e fazer upload na Hugging Face:**
 O software H2O LLM Studio desempenhou um papel fundamental no processo de fine-tuning do modelo para tradução do português para a linguagem Cypher. O modelo específico adotado foi o da [Eleuther AI](https://huggingface.co/EleutherAI).
 
 * **Google Colab:**
-Para o treinamento do modelo, foi essencial o uso de uma Unidade de Processamento Gráfico (GPU). O Google Colab ofereceu uma GPU de forma gratuita, que se mostrou mais que suficiente para o treinamento necessário. Para utilizar o Google Colab, foram executados os passos utilizando a interface de linha de comando (CLI). Existem duas opções para utilizar essa interface: a primeira, seguindo o tutorial disponível em https://github.com/diegomiranda02/cli_HF_h2o_llm_studio; e a segunda, baixando o fork do projeto H2O LLM Studio em https://github.com/diegomiranda02/h2o-llmstudio e seguindo o passo a passo detalhado na seção "Run H2O LLM Studio with command line interface (CLI)."
+Para o treinamento do modelo, foi essencial o uso de uma Unidade de Processamento Gráfico (GPU). O Google Colab ofereceu uma GPU de forma gratuita, que se mostrou mais que suficiente para o treinamento necessário. Para utilizar o Google Colab, foram executados os passos utilizando a interface de linha de comando (CLI). Para utilizar a interface CLI acesse o link https://github.com/h2oai/h2o-llmstudio.git e execute o passo a passo detalhado na seção "Run H2O LLM Studio with command line interface (CLI)". A H2O disponibiliza o seguinte tutorial como exemplo https://colab.research.google.com/drive/1-OYccyTvmfa3r7cAquw8sioFFPJcn4R9?usp=sharing.
 
 * **Neo4J:**
 A escolha para armazenar os nós e as arestas representando a relação dos dados foi o banco de dados orientado a grafos Neo4J.
@@ -49,7 +49,7 @@ O prefixo "Create a cypher to the following command:" foi adotado seguindo o mes
 # Modelo após o fine-tuning
 
 Após o processo de fine-tuning, o modelo apresentou um bom desempenho, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
-Link para o Modelo e Instruções para Testes: [Inserir o link para o modelo e suas respectivas instruções para testes aqui.] 
+Link para o Modelo e Instruções para Testes: [diegomiranda/text-to-cypher](https://huggingface.co/diegomiranda/text-to-cypher) 
 
 # Implementação do Projeto
 
@@ -167,9 +167,8 @@ class Neo4JAPI:
 ```
 
 # Consulta dos Dados e Geração do JSON
-O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport. A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit. Os dados obtidos são estruturados em formato JSON para facilitar o processamento e a visualização na interface do usuário.
+O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport (ver artigo [Automating Business Reports Visualization with Streamlit](https://medium.com/@diego.miranda02/automating-business-reports-visualization-with-streamlit-c44e92d6b281). A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit. 
 
-Vamos explicar o que cada parte do código faz:
 
 ```python
 class DataFromNode4JReport(BaseJSONReport):
@@ -198,10 +197,10 @@ Este método, chamado generateJSONReport, é responsável por gerar o JSON final
 
 A classe DataFromNode4JReport é projetada para receber consultas em linguagem Cypher, executá-las no banco de dados Neo4j, converter o resultado em um formato de dicionário e gerar um JSON que representa o relatório. Esse JSON específico é concebido para ser facilmente renderizado automaticamente pela interface do usuário em Streamlit, proporcionando uma visualização clara e organizada dos dados obtidos no banco de dados Neo4j.
 
-# Visualização Automática na Interface do Usuário (PADRONIZAÇÃO?)
+# Geração dos resultados em formato JSON padronizado
 Os resultados em formato JSON são enviados para a interface do usuário, onde são automaticamente estruturados utilizando a classe BaseReport e a classe DataFromNode4JReport. Essa padronização possibilita a visualização dos dados de forma clara e intuitiva.
 
-Neste trecho de código, a função get_data recebe uma consulta em linguagem natural, converte-a para uma consulta em linguagem Cypher, executa a consulta no banco de dados Neo4j e gera um JSON com os dados obtidos. O JSON é preparado para ser exibido na interface do usuário, facilitando a visualização dos resultados da consulta do banco de dados.
+Neste trecho de código, a função get_data recebe uma consulta em linguagem natural, converte-a para uma consulta em linguagem Cypher, executa a consulta no banco de dados Neo4j e gera um JSON com os dados obtidos. 
 
 ```python
 def get_data(report_name: str, query: str):
@@ -210,9 +209,6 @@ def get_data(report_name: str, query: str):
 
     # Generate the cypher code from the query
     cypher_code = generate_cypher(query)
-    
-    # Replace the first part of the query
-    cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
 
     dataFromNode4JReportTitle = "Relatório de Consultas em Linguagem Natural"
     dataFromNode4JReportSubtitle = "Dados consultados diretamente do Neo4J"
@@ -273,3 +269,80 @@ def generate_report(data_content):
 
 Benefícios da Solução
 Com essa solução, os usuários podem interagir com o banco de dados Neo4j através de consultas em linguagem natural, sem a necessidade de conhecimento específico da linguagem Cypher. A tradução automática e a visualização dos resultados simplificam o processo de obtenção de informações importantes para o negócio e possibilitam a exploração de dados de forma mais acessível e prática. A aplicação desenvolvida em Streamlit oferece uma experiência intuitiva, tornando a interação com o banco de dados em grafo Neo4j uma tarefa simplificada.
+
+## Preparação do ambiente de desenvolvimento
+
+1. Instalar Docker: Visite o site oficial (https://docs.docker.com/get-docker/) e siga as instruções para instalar o Docker no seu sistema.
+
+2. Instalar Neo4J com Docker: Visite o site oficial (https://neo4j.com/docs/operations-manual/current/docker/introduction/#docker-image) e siga as instruções para instalar o servidor de banco de dados em grafo Neo4J com Docker.
+
+3. Instalar Git: Instalar o Git do site oficial (https://git-scm.com/downloads).
+
+4. Anaconda: Instalar o software Anaconda do site oficial (https://www.anaconda.com/download).
+
+5. Clone o projeto do repositório do GitHub:
+
+- Abra um terminal ou prompt de comando
+- Mude o diretório para o qual você clonou o projeto.
+- Execute o seguinte comando para clonar o projeto:
+
+``` 
+git clone https://github.com/diegomiranda02/juris-graph-insights-with-llm.git
+```
+Uma vez que o download foi finalizado, mude para o diretório do projeto:
+
+```
+cd <diretorio_do_projeto>
+```
+
+6. Crie um ambiente para executar o projeto com o seguinte comando:
+
+```bash
+conda create -f config/environment.yaml
+conda activate cypher_llm_env
+```
+
+7. Acesse o servidor do banco de dados Neo4J acessando http://localhost:7474/ para verificar se a instalação está correta.
+
+8. Modificar a senha do banco no seguinte trecho dos scripts 'insert_data.py' e 'delete_data.py'
+
+```
+username = MUDAR_LOGIN  # Substitua pelo seu nome de usuário Neo4j
+password = MUDAR_SENHA  # Substitua pela sua senha do Neo4j
+```
+
+9. Gerar os dados do banco:
+
+```python
+python cypher_python/pt_BR/insert_data.py
+```
+
+10. Para deletar os dados do banco execute o seguindo comando:
+
+```python
+python cypher_python/pt_BR/delete_data.py
+```
+
+Há duas formas para executar a aplicação: via linha de comando ou através do aplicativo web desenvolvido com Streamlit.
+
+1. Pela linha de comando, execute o seguinte comando:
+
+```python
+python service_api_CONSOLE.py
+```
+
+2. Através do aplicativo web desenvolvido com Streamlit, execute o seguinte comando:
+
+```python
+streamlit run service_api.py
+```
+
+Abaixo um vídeo demonstrando a execução da aplicação:
+
+## Conclusão
+
+A proposta de implementar um algoritmo de inteligência artificial capaz de compreender consultas em português e gerar a linguagem específica do banco de dados em grafo, como o Cypher do Neo4J, é uma solução promissora para a adoção da solução em escritórios de advocacia.
+
+Ao empregar ferramentas gratuitas, como o H2O LLM Studio, Google Colab, Neo4J e a plataforma Hugging Face, o projeto demonstra que é possível desenvolver uma solução eficiente e acessível para simplificar o acesso aos dados e permitir consultas mais intuitivas na área do Direito. O uso de um modelo pré-treinado da Eleuther AI e a disponibilização do modelo na Hugging Face mostram como a colaboração e o compartilhamento de recursos podem impulsionar a inovação.
+
+Além disso, a ênfase na utilização de recursos de código aberto e gratuito ressalta a importância de democratizar o acesso à tecnologia e promover a aplicação prática de análises de dados em grafos no campo jurídico. Essa abordagem pode representar um avanço na eficiência e na capacidade de análise das informações em escritórios de advocacia, eliminando barreiras de complexidade e tornando a tecnologia mais acessível a todos os profissionais da área.

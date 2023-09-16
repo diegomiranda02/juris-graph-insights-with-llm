@@ -30,7 +30,7 @@ def get_data(report_name: str, query: str):
     cypher_code = generate_cypher(query)
     
     # Replace the first part of the query
-    cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
+    # cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
 
     dataFromNode4JReportTitle = "Relatório de Consultas em Linguagem Natural"
     dataFromNode4JReportSubtitle = "Dados consultados diretamente do Neo4J"
@@ -74,7 +74,7 @@ def generate_report(data_content):
             st.bar_chart(chart_data)
 
 
-command = st.text_input("O que deseja?", "Me informe as leis que juiz 3 já se baseou nos processos relativos a Direito do Consumidor", disabled=False)
+command = st.text_input("O que deseja?", "Retorne os processos de Direito Tributário que se baseiam em lei 939 de 1992", disabled=False)
 
 # check if the Send button was pressed and get the API Data
 # This code was based on the code presented in the 'Técnicas Avançadas de NLP (Natural Language Processing)' course by Professor Giuliano Ferreira 

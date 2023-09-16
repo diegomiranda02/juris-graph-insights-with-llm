@@ -1,29 +1,41 @@
-import torch
+
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
 
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-
-tokenizer = AutoTokenizer.from_pretrained("diegomiranda/eleuther_70m_cypher_generator")
-model = AutoModelForCausalLM.from_pretrained("diegomiranda/eleuther_70m_cypher_generator").to(
-    device
-)
-
-prefix = "\nCreate a Cypher statement to answer the following question:"
+model_name = "diegomiranda/text-to-cypher"
+prefix = "Create a Cypher statement to answer the following question:"
+sufix = "<|endoftext|>"
 
 def generate_cypher(prompt):
-    print("PROMPT ---->>>>  " + prompt)
-    inputs = tokenizer(
-        f"{prefix}{prompt}<|endoftext|>", return_tensors="pt", add_special_tokens=False
-    ).to(device)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name,
+        use_fast=True,
+        trust_remote_code=True,
+    )
+
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float32,
+        device_map={"": "cpu"},
+        trust_remote_code=True,
+    )
+    model.cpu().eval()
+
+    inputs = tokenizer(prefix + prompt + sufix, return_tensors="pt", add_special_tokens=False).to("cpu")
+
     tokens = model.generate(
-        **inputs,
-        max_new_tokens=256,
-        temperature=0.0,
-        repetition_penalty=1.0,
-        num_beams=4,
+        input_ids=inputs["input_ids"],
+        attention_mask=inputs["attention_mask"],
+        min_new_tokens=2,
+        max_new_tokens=500,
+        do_sample=False,
+        num_beams=2,
+        temperature=float(0.0),
+        repetition_penalty=float(1.0),
+        renormalize_logits=True
     )[0]
-    tokens = tokens[inputs["input_ids"].shape[1] :]
 
-    result_test = tokenizer.decode(tokens, skip_special_tokens=True)
+    tokens = tokens[inputs["input_ids"].shape[1]:]
+    answer = tokenizer.decode(tokens, skip_special_tokens=True)
 
-    return result_test
+    return answer

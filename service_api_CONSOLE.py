@@ -8,9 +8,6 @@ query = "Me informe as leis que juiz 3 já se baseou nos processos relativos a D
 
 # Generate the cypher code from the query
 cypher_code = generate_cypher(query)
-        
-# Replace the first part of the query
-cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
 
 print(cypher_code)
 

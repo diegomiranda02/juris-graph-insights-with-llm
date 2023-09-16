@@ -38,20 +38,11 @@ async def root():
 # Return a result for a specific query
 @app.get("/llm_api", response_class=PlainTextResponse)
 async def query(query: str):
-
-    print("QUERY ->>>>>: " + query)
    
     # Generate the cypher code from the query
     cypher_code = generate_cypher(query)
 
-    print("cypher_code 1 ->>>>>: " + cypher_code)
-        
-    # Replace the first part of the query
-    cypher_code = cypher_code.replace("Create a Cypher statement to answer the following question:", "")
-
-    print("cypher_code 2 ->>>>>: " + cypher_code)
-
-
+    
     dataFromNode4JReportTitle = "Data from Neo4J Report"
     dataFromNode4JReportSubtitle = "Consulta executada no banco: " + cypher_code
     dataFromNeo4JReport = DataFromNode4JReport(dataFromNode4JReportTitle, dataFromNode4JReportSubtitle)
