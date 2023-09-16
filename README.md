@@ -323,7 +323,7 @@ python cypher_python/pt_BR/insert_data.py
 python cypher_python/pt_BR/delete_data.py
 ```
 
-Há duas formas para executar a aplicação: via linha de comando ou através do aplicativo web desenvolvido com Streamlit.
+Há três formas para executar a aplicação: via linha de comando, através do aplicativo web desenvolvido com Streamlit ou iniciando um serviço REST.
 
 1. Pela linha de comando, execute o seguinte comando:
 
@@ -334,10 +334,19 @@ python service_api_CONSOLE.py
 2. Através do aplicativo web desenvolvido com Streamlit, execute o seguinte comando:
 
 ```python
-streamlit run service_api.py
+streamlit run app.py
 ```
 
+3. Iniciando um serviço REST:
+
+```python
+uvicorn service_api:app
+```
+Acesse http://127.0.0.1:8000/llm_api?query="Retorne os processos de Direito Tributário que se baseiam na lei 939 de 1992". 
+
 Abaixo um vídeo demonstrando a execução da aplicação:
+
+![Execução da aplicação](video/aplicacao_em_streamlit.mp4)
 
 ## Conclusão
 
