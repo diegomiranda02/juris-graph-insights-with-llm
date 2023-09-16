@@ -1,7 +1,6 @@
-# juris-graph-insights-with-llm
-Legal Insights through Graphs with LLM
+# Análise de Dados na Área Jurídica com a Utilização de Gráficos e LLM
 
-# Introdução
+## Introdução
 
 No artigo [Análise de Dados em Grafo com Python na Área do Direito](https://medium.com/p/8eeafbc14601), foram abordadas as vantagens do uso de um banco de dados orientado a grafo para análise em um escritório de advocacia. No entanto, identificou-se um obstáculo para a utilização dessa tecnologia: a necessidade de treinamento dos advogados ou responsáveis pelo levantamento dos dados para construir consultas na linguagem específica do banco de dados em grafo. Ao contrário dos bancos de dados relacionais, que possuem uma linguagem padrão (SQL), cada banco de dados em grafo utiliza sua própria linguagem, o que torna a adoção da tecnologia e a realização da análise mencionada no artigo inviáveis.
 A fim de superar esse desafio, propõe-se a implementação de um algoritmo de inteligência artificial capaz de compreender consultas em português e gerar a linguagem específica do banco de dados em grafo, neste caso, a linguagem Cypher do banco Neo4J. A figura abaixo ilustra o funcionamento da solução proposta: 
@@ -11,7 +10,7 @@ A fim de superar esse desafio, propõe-se a implementação de um algoritmo de i
 Com essa abordagem, espera-se facilitar o acesso à base de dados e possibilitar consultas de forma mais intuitiva e acessível para os profissionais do escritório de advocacia, eliminando a barreira da complexidade da linguagem de consulta do banco de dados em grafo. Essa solução pode representar um avanço na adoção da tecnologia e na aplicação prática das análises mencionadas no artigo.
 
 
-# Ferramentas Utilizadas
+## Ferramentas Utilizadas
 
 Neste artigo, descreveremos as ferramentas gratuitas que foram empregadas no desenvolvimento do projeto, permitindo a construção de uma solução eficiente e acessível. Abaixo estão as principais ferramentas utilizadas:
 
@@ -54,18 +53,18 @@ python scripts/pt_BR/gen_dataset_to_train_the_LLM.py
 
 O dataset será gerado em um arquivo .csv com o nome 'result.csv'.
 
-# Modelo após o fine-tuning
+## Modelo após o fine-tuning
 
 Após o processo de fine-tuning, o modelo apresentou um bom desempenho, alcançando uma métrica BLEU de 97. Além disso, devido ao menor número de parâmetros, tornou-se possível executar o modelo treinado em uma CPU, reduzindo o uso de recursos necessários para sua execução e escalabilidade.
 Link para o Modelo e Instruções para Testes: [diegomiranda/text-to-cypher](https://huggingface.co/diegomiranda/text-to-cypher) 
 
-# Implementação do Projeto
+## Implementação do Projeto
 
 Nesta seção, descreve-se a solução para permitir que o usuário digite consultas em linguagem natural em uma aplicação desenvolvida em Streamlit. A consulta inserida é processada por um modelo de linguagem com fine-tuning da Eleuther AI, traduzida para a linguagem Cypher e, em seguida, utilizada para consultar um banco de dados em grafo Neo4j. Os resultados são automaticamente renderizados em formato JSON e visualizados de forma intuitiva na interface do usuário. A figura abaixo mostra as etapas do processo desde a consulta feita pelo usuário até o resultado mostrado na interface:
 
 ![alt text](https://github.com/diegomiranda02/juris-graph-insights-with-llm/blob/main/images/fluxo_traducao_portugues_cypher.png?raw=true)
 
-# Interface de Consulta em Linguagem Natural
+## Interface de Consulta em Linguagem Natural
 
 A implementação começa com a criação de uma interface de consulta em linguagem natural, desenvolvida no ambiente Streamlit, que permite que os usuários insiram suas consultas de maneira intuitiva. Através dessa aplicação, os usuários têm a liberdade de digitar perguntas em linguagem natural, por exemplo: "Quais processos que fazem referência à lei 939 de 1992 na área de Direito do Consumidor?". 
 
@@ -80,7 +79,7 @@ if st.button("Enviar"):
 
 Neste trecho de código, um campo de entrada de texto é criado usando a função text_input do Streamlit. Isso permite que o usuário digite sua consulta em linguagem natural. Um botão "Enviar" é criado usando a função button do Streamlit para permitir ao usuário enviar a consulta. Durante o processamento da consulta, uma animação de carregamento é exibida utilizando a função spinner do Streamlit para fornecer feedback visual de que a consulta está sendo processada.
 
-# Tradução Automática com o Modelo de Linguagem
+## Tradução Automática com o Modelo de Linguagem
 
   Em seguida, utilizamos um modelo de linguagem da Eleuther AI após um processo de fine-tuning para realizar a tradução automática da consulta em linguagem natural para a linguagem Cypher. Isso é necessário para que a consulta possa ser executada em um banco de dados Neo4j baseado em grafo. Aqui está o código para executar o modelo:
 
@@ -129,7 +128,7 @@ response = generate_response(prompt, model_name)
 print(response)
 ```
 
-# Consulta no Banco de Dados Neo4j
+## Consulta no Banco de Dados Neo4j
 O código em Python, com a consulta em linguagem Cypher, é utilizado para consultar o banco de dados em grafo Neo4j. O banco de dados contém os nós e as arestas representando os processos judiciais e suas relações, permitindo consultas eficientes com base na linguagem Cypher.
 
 Este trecho de código estabelece uma conexão com um banco de dados Neo4j, executa consultas no banco de dados e retorna os resultados em formato de tabela (DataFrame) usando a biblioteca Pandas. 
@@ -174,7 +173,7 @@ class Neo4JAPI:
         return result
 ```
 
-# Consulta dos Dados e Geração do JSON
+## Consulta dos Dados e Geração do JSON
 O objetivo deste código é criar uma classe chamada DataFromNode4JReport, que herda de uma classe chamada BaseJSONReport (ver artigo [Automating Business Reports Visualization with Streamlit](https://medium.com/@diego.miranda02/automating-business-reports-visualization-with-streamlit-c44e92d6b281). A classe DataFromNode4JReport é projetada para receber um DataFrame resultante de uma consulta no banco de dados Neo4j e gerar um JSON no formato específico que facilita a renderização automática da interface do usuário em uma aplicação Streamlit. 
 
 
@@ -227,7 +226,7 @@ def get_data(report_name: str, query: str):
     return json.loads(data)
 ```
 
-# Geração Automática do Relatório
+## Geração Automática do Relatório
 Na etapa final, o método generate_report no arquivo app.py recebe como parâmetro o JSON com os dados gerados na etapa anterior. Esse método renderiza automaticamente o relatório, proporcionando ao usuário uma visão completa e organizada dos resultados obtidos a partir da consulta em linguagem natural.
 
 Este trecho de código recebe um JSON no formato especificado com a classe BaseReport e renderiza cada componente na biblioteca Streamlit automaticamente.
@@ -275,7 +274,7 @@ def generate_report(data_content):
             st.bar_chart(chart_data)
 ```
 
-Benefícios da Solução
+## Benefícios da Solução
 Com essa solução, os usuários podem interagir com o banco de dados Neo4j através de consultas em linguagem natural, sem a necessidade de conhecimento específico da linguagem Cypher. A tradução automática e a visualização dos resultados simplificam o processo de obtenção de informações importantes para o negócio e possibilitam a exploração de dados de forma mais acessível e prática. A aplicação desenvolvida em Streamlit oferece uma experiência intuitiva, tornando a interação com o banco de dados em grafo Neo4j uma tarefa simplificada.
 
 ## Preparação do ambiente de desenvolvimento
