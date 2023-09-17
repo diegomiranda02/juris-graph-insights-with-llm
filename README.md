@@ -200,7 +200,7 @@ class DataFromNode4JReport(BaseJSONReport):
         return super().generateJSONReport()
 ```
 
-Este método, chamado generateJSONReport, é responsável por gerar o JSON final do relatório. Ele retorna o resultado gerado a partir da chamada do método generateJSONReport da classe pai (BaseJSONReport), que foi herdado.
+Este método, chamado generateJSONReport, é responsável por gerar o JSON final do relatório. Ele retorna o resultado gerado a partir da chamada do método generateJSONReport da classe (BaseJSONReport).
 
 A classe DataFromNode4JReport é projetada para receber consultas em linguagem Cypher, executá-las no banco de dados Neo4j, converter o resultado em um formato de dicionário e gerar um JSON que representa o relatório. Esse JSON específico é concebido para ser facilmente renderizado automaticamente pela interface do usuário em Streamlit, proporcionando uma visualização clara e organizada dos dados obtidos no banco de dados Neo4j.
 
