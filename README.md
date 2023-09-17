@@ -1,4 +1,4 @@
-# Análise de Dados na Área Jurídica com a Utilização de Gráficos e LLM
+# Análise de Dados na Área Jurídica com a Utilização de Grafos e LLM
 
 ## Introdução
 
